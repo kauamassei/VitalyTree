@@ -382,7 +382,7 @@ const dotenv = require("dotenv")
 
 dotenv.config()
 
-const wss = new WebSocketServer({ port: process.env.PORT || 30001 })
+const wss = new WebSocketServer({ port: 3002 })
 
 wss.on("connection", (ws) => {
   ws.on("error", console.error)

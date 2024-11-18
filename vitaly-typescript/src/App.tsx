@@ -63,7 +63,7 @@ const router = createBrowserRouter([
   {
     path: '/', // Rota principal para a landing page
     element: (
-      <ChatClient />
+      <LandingPage />
     ),
   },
   {

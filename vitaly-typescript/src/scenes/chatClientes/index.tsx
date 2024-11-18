@@ -1,5 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import '@/scenes/chatClientes/chat.css';
+
+import medicocalvo from "@/assets/medicocalvo.jpg";
+import medicafelizcomaprofissao from "@/assets/medicafelizcomaprofissao.jpg";
+import medicadoida from "@/assets/medicadoida.jpg";
 
 interface User {
   id: string;
@@ -15,12 +20,20 @@ interface Message {
 }
 
 const ChatClient: React.FC = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const professionalId = queryParams.get('id');
+
   const [user, setUser] = useState<User | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [chatInputValue, setChatInputValue] = useState('');
   const [websocket, setWebsocket] = useState<WebSocket | null>(null);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
+
+  const [professionalName, setProfessionalName] = useState('');
+  const [professionalSpecialty, setProfessionalSpecialty] = useState('');
+  const [professionalPhoto, setProfessionalPhoto] = useState('');
 
   const colors = [
     'cadetblue',
@@ -49,7 +62,7 @@ const ChatClient: React.FC = () => {
     };
     setUser(newUser);
 
-    const ws = new WebSocket('ws://localhost:8080');
+    const ws = new WebSocket('ws://localhost:3002');
     ws.onmessage = (event) => processMessage(event.data);
     ws.onopen = () => console.log('Conectado ao WebSocket!');
     ws.onerror = (err) => console.error('Erro no WebSocket:', err);
@@ -78,8 +91,38 @@ const ChatClient: React.FC = () => {
     scrollScreen();
   };
 
+  // Buscar informações do profissional quando o ID for encontrado
+  useEffect(() => {
+    if (professionalId) {
+      // Simulação de busca do profissional com base no ID
+      // Substitua isso por uma chamada API real, se necessário
+      switch (professionalId) {
+        case '1':
+          setProfessionalName('Maria Silva');
+          setProfessionalSpecialty('Terapeuta');
+          setProfessionalPhoto(medicadoida); // Substituir com URL real
+          break;
+        case '2':
+          setProfessionalName('João Pereira');
+          setProfessionalSpecialty('Clínico Geral');
+          setProfessionalPhoto(medicocalvo); // Substituir com URL real
+          break;
+        case '3':
+          setProfessionalName('Ana Costa');
+          setProfessionalSpecialty('Psicóloga');
+          setProfessionalPhoto(medicafelizcomaprofissao); // Substituir com URL real
+          break;
+        default:
+          setProfessionalName('Profissional Não Encontrado');
+          setProfessionalSpecialty('');
+          setProfessionalPhoto('');
+          break;
+      }
+    }
+  }, [professionalId]);
+
   return (
-    <div className="container">
+    <div className="containerChat">
       {!user ? (
         <section className="login">
           <h2>Login</h2>
@@ -99,6 +142,22 @@ const ChatClient: React.FC = () => {
         </section>
       ) : (
         <section className={`chat ${user ? 'visible' : 'hidden'}`}>
+          <div className="chat__header">
+            <div className="professional-info">
+              {professionalPhoto && (
+                <img
+                  src={professionalPhoto}
+                  alt={professionalName}
+                  className="professional-photo"
+                />
+              )}
+              <div>
+                <h3>{professionalName}</h3>
+                <p>{professionalSpecialty}</p>
+              </div>
+            </div>
+            
+          </div>
           <div className="chat__messages">
             {messages.map((message, index) => (
               <div

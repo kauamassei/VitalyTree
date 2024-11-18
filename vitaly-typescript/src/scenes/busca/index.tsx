@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Clientes from '@/scenes/clientes'; 
+import Clientes from '@/scenes/clientes';
 import HomeDois from '@/scenes/busca/homeDois'; // Importar o componente Home
 import Navbar from '@/scenes/navbar';
+import { useNavigate } from 'react-router-dom';
 
 const BuscaDoencas: React.FC = () => {
   const [nomeDoenca, setNomeDoenca] = useState('');
   const [doencas, setDoencas] = useState<any[]>([]); 
   const [noticias, setNoticias] = useState<any[]>([]); 
+  const navigate = useNavigate(); // Usando o hook de navegação
 
   // Função para buscar doenças do banco de dados
   const buscarDoenca = async () => {
@@ -36,12 +38,16 @@ const BuscaDoencas: React.FC = () => {
     }
   };
 
+  // Função para navegação para o chat
+  const handleProfessionalClick = (id: string) => {
+    navigate(`/ChatClient?id=${id}`); // Redireciona para a tela de chat com o ID do profissional
+  };
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 py-20 gap-10">
-      {/* Seção da Home */}
       <div className="w-full">
-        <Navbar setSelectedPage={() => {}} /> {/* Reutilizar o componente Home */}
-        <HomeDois setSelectedPage={() => {}} /> {/* Reutilizar o componente Home */}
+        <Navbar setSelectedPage={() => {}} />
+        <HomeDois setSelectedPage={() => {}} />
       </div>
 
       {/* Seção de busca de doenças */}
@@ -98,7 +104,7 @@ const BuscaDoencas: React.FC = () => {
 
         {/* Componente de Médicos */}
         <div className="flex-1 max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg">
-          <Clientes setSelectedPage={() => {}} />
+          <Clientes handleProfessionalClick={handleProfessionalClick} />
         </div>
       </div>
     </div>
