@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import "@/scenes/assinatura/confirmar/confirmar.css";
 
-import cartao2 from '@/assets/cartao2.png';
-import cartao1 from '@/assets/cartao1.png';
-import pixlogo from '@/assets/pixlogo.png';
-import boleto from '@/assets/boleto.png';
+import cartao2 from "@/assets/cartao2.png";
+import cartao1 from "@/assets/cartao1.png";
+import pixlogo from "@/assets/pixlogo.png";
+import boleto from "@/assets/boleto.png";
 
 const PaymentMethods: React.FC = () => {
   const { state } = useLocation();
   const selectedPlan = state?.selectedPlan || "Nenhum plano selecionado";
-  
+
   const [selectedMethod, setSelectedMethod] = useState<string>("");
   const [formData, setFormData] = useState({
     name: "",
@@ -30,17 +30,19 @@ const PaymentMethods: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
-      const response = await axios.post('http://localhost:3001/confirmar', {
+      const response = await axios.post("http://localhost:3005/create-preference", {
         email: formData.email, // E-mail do usuário
         plan: selectedPlan, // Plano escolhido
-        paymentMethod: selectedMethod // Forma de pagamento escolhida
+        paymentMethod: selectedMethod, // Forma de pagamento escolhida
       });
-      alert(response.data.message); // Exibe a mensagem de sucesso
+
+      // Redireciona para o checkout do Mercado Pago
+      window.location.href = response.data.init_point;
     } catch (error) {
-      console.error('Erro ao enviar e-mail:', error);
-      alert('Erro ao enviar o e-mail. Tente novamente.');
+      console.error("Erro ao criar a preferência:", error);
+      alert("Erro ao iniciar o pagamento. Tente novamente.");
     }
   };
 

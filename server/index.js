@@ -393,3 +393,6 @@ wss.on("connection", (ws) => {
 
   console.log("client connected")
 })
+///////////////////////////////////////////////////////////////////////////
+//BACKEND DA API PAGAMENTO
+

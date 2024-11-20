@@ -22,6 +22,10 @@ import RegistrationOptions from "@/scenes/login/RegisOptions";
 import RProfi from "@/scenes/login/RProfi";
 import Perfil from "@/scenes/perfil";
 import ClinicaRegister from "@/scenes/login/RegClinica"
+import Sucesso from "@/scenes/assinatura/status/success"
+import Falha from "@/scenes/assinatura/status/failure"
+import Pendente from "@/scenes/assinatura/status/pending"
+
 
 // Componente que renderiza a landing page
 const LandingPage = () => {
@@ -109,6 +113,19 @@ const router = createBrowserRouter([
   {
     path: '/ChatClient', // Rota para tela de escolher assinatura
     element: <ChatClient />,
+  },
+  //////////////
+  {
+    path: '/sucesso', // Rota para tela de sucesso
+    element: <Sucesso />,
+  },
+  {
+    path: '/falha', // Rota para tela de falhaa
+    element: <Falha />,
+  },
+  {
+    path: '/pendente', // Rota para tela de pendente vai tomar no cu mercado pago api e tcc e etc vsf
+    element: <Pendente />,
   },
 ]);
 
