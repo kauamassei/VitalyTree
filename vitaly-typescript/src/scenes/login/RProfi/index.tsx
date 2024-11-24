@@ -1,177 +1,246 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import '@/scenes/login/RProfi/RProfi.css';
+
+import video from '../../../LoginAssets/video.mp4';
+import logo from '../../../assets/LogoVitalytree.svg';
+import { useToast } from "@/hooks/use-toast"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button"
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import { FaUserMd, FaBullhorn, FaTabletAlt } from 'react-icons/fa';
 
+const formSchema = z.object({
+    email: z
+        .string({
+            message: "Por favor escreva seu email"
+        })
+        .email({
+            message: "Por favor escreva um email valido"
+        }),
+    fullName: z.string({
+        message: "Por favor escreva seu nome"
+    }),
+    password: z.string({
+        message: "Por favor escreva uma senha"
+    }),
+    state: z.string({
+        message: "Por favor escreva seu estado"
+    }),
+    phone: z.string({
+        message: "Por favor escreva seu numero de telefone"
+    }),
+    specialty: z.string({
+        message: "Por favor escreva seu especialidade"
+    }),
+    cnpj: z.string({
+        message: "Por favor escreva seu cnpj"
+    }),
+    professionalId: z.string({
+        message: "Por favor escreva seu registro de profissional"
+    }),
+})
+
+
 const RProfi: React.FC = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    phone: '',
-    state: '',
-    specialty: '',
-    cnpj: '',
-    professionalId: ''
-  });
-  
-  const navigate = useNavigate();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    })
+    const { toast } = useToast()
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3001/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-  
-      if (response.ok) {
-        console.log('Registro bem-sucedido');
-        
-        // Salvar dados do usuário no localStorage
-        localStorage.setItem("userData", JSON.stringify({
-          name: formData.fullName,
-          email: formData.email,
-          photo: "",  // Adicione a foto aqui se disponível
-        }));
-        
-        // Redirecionar para a página de perfil
-        navigate("/perfil");
-      } else {
-        console.log('Erro no registro');
-      }
-    } catch (error) {
-      console.error('Erro ao enviar os dados:', error);
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        regiterProfissional(values)
     }
-  };
 
-  return (
-    <div className="registerPage flex">
-      <div className="benefitsDiv">
-        <h3>vantagens</h3>
-        <ul>
-          <li>
-            <FaUserMd className="benefitIcon" />
-            <span>Contato diretamente com o paciente</span>
-          </li>
-          <li>
-            <FaBullhorn className="benefitIcon" />
-            <span>Divulgação dos serviços do profissional</span>
-          </li>
-          <li>
-            <FaTabletAlt className="benefitIcon" />
-            <span>Facilidade de usar a plataforma</span>
-          </li>
-        </ul>
-      </div>
-      <div className="container flex">
-        <div className="formDiv flex card-cadastro">
-          <div className="headerDiv">
-            <h3>Registro de Profissional</h3>
-          </div>
-          <form className="form grid">
-            <div className="inputDiv">
-              <label htmlFor="fullName">Nome Completo</label>
-              <input
-                type="text"
-                id="fullName"
-                name="fullName"
-                placeholder="Insira seu nome completo"
-                value={formData.fullName}
-                onChange={handleInputChange}
-              />
+    const navigate = useNavigate();
+
+
+    const regiterProfissional = async (value: z.infer<typeof formSchema>) => {
+        try {
+            const response = await fetch('http://localhost:3001/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(value),
+            });
+
+            if (response.ok) {
+                toast({
+                    title: `${value.fullName} foi registrado com sucesso`,
+                })
+
+                // Salvar dados do usuário no localStorage
+                localStorage.setItem("userData", JSON.stringify({
+                    name: value.fullName,
+                    email: value.email,
+                    photo: "",  // Adicione a foto aqui se disponível
+                }));
+
+                // Redirecionar para a página de perfil
+                navigate("/perfil");
+            } else {
+                console.log('Erro no registro');
+            }
+        } catch (error) {
+            console.error('Erro ao enviar os dados:', error);
+        }
+    };
+
+    return (
+
+        <div className="bg-auth bg-center bg-no-repeat bg-cover min-h-screen w-full flex items-center justify-center">
+            <div className='max-w-[800px] bg-slate-50 rounded-lg sm:grid sm:grid-cols-2 max-sm:flex max-sm:flex-col-reverse drop-shadow-md overflow-hidden '>
+                <section className='px-8 py-6 '>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                            <span className="w-full text-lg text-center font-bold">Cadastro do Profissioanal</span>
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Email" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="fullName"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Nome" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+
+                            <FormField
+                                control={form.control}
+                                name="state"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Estado" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Telefone" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Senha" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="specialty"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Especialidade" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="cnpj"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="CNPJ" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="professionalId"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Registro de Profissional" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <Button type="submit" className='w-full bg-primary-300'>Registrar</Button>
+                            <span className="text">Já possui uma conta? <Link to={'/login'} className='hover:text-primary-200'>Clique Aqui</Link></span>
+
+                        </form>
+                    </Form>
+                </section>
+                <section className='relative '>
+                    <div className="absolute backdrop-blur-sm bg-white/50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center flex-col px-3 py-2 rounded-lg">
+                        <img src={logo} className='h-20 w-auto' />
+                        <div className="flex flex-col w-[300px]">
+                            <p className="w-full text-center font-bold">vantagens</p>
+                            <ul>
+                                <li className="flex gap-2 items-center">
+                                    <FaUserMd className="benefitIcon" />
+                                    <span>Contato diretamente com o paciente</span>
+                                </li>
+                                <li className="flex gap-2 items-center">
+                                    <FaBullhorn className="benefitIcon" />
+                                    <span>Divulgação dos serviços do profissional</span>
+                                </li>
+                                <li className="flex gap-2 items-center">
+                                    <FaTabletAlt className="benefitIcon" />
+                                    <span>Facilidade de usar a plataforma</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <video src={video} autoPlay muted loop className='h-full w-96 object-cover'></video>
+
+                </section>
             </div>
-
-            <div className="inputDiv">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Insira seu email"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="inputDiv">
-              <label htmlFor="password">Senha</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Insira sua senha"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="inputDiv">
-              <label htmlFor="phone">Telefone</label>
-              <input
-                type="text"
-                id="phone"
-                name="phone"
-                placeholder="Insira seu telefone"
-                value={formData.phone}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="inputDiv">
-              <label htmlFor="specialty">Especialidade</label>
-              <input
-                type="text"
-                id="specialty"
-                name="specialty"
-                placeholder="Insira sua especialidade médica"
-                value={formData.specialty}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            {/* Campo CPF */}
-            <div className="inputDiv">
-              <label htmlFor="cpf">CPF</label>
-              <input
-                type="text"
-                id="cpf"
-                name="cpf"
-                placeholder="Insira seu CPF"
-                value={formData.cpf}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            {/* Campo Registro de Profissional */}
-            <div className="inputDiv">
-              <label htmlFor="professionalId">Registro de Profissional</label>
-              <input
-                type="text"
-                id="professionalId"
-                name="professionalId"
-                placeholder="Insira seu registro profissional"
-                value={formData.professionalId}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <button type="submit" className="btn flex" onClick={handleSubmit}>
-              Registrar
-            </button>
-          </form>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default RProfi;

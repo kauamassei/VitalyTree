@@ -9,6 +9,7 @@ const BuscaDoencas: React.FC = () => {
   const [nomeDoenca, setNomeDoenca] = useState('');
   const [doencas, setDoencas] = useState<any[]>([]); 
   const [noticias, setNoticias] = useState<any[]>([]); 
+  const [mostrarMedicos, setMostrarMedicos] = useState(false); // Estado para controlar a visibilidade do card de médicos
   const navigate = useNavigate(); // Usando o hook de navegação
 
   // Função para buscar doenças do banco de dados
@@ -35,6 +36,7 @@ const BuscaDoencas: React.FC = () => {
   const handleSearch = async () => {
     if (nomeDoenca) {
       await Promise.all([buscarDoenca(), buscarNoticias()]);
+      setMostrarMedicos(true); // Mostrar o card de médicos após a busca
     }
   };
 
@@ -51,8 +53,16 @@ const BuscaDoencas: React.FC = () => {
       </div>
 
       {/* Seção de busca de doenças */}
-      <div id="buscar-doencas" className="flex flex-col md:flex-row justify-center items-center w-full gap-10 mt-10">
-        <div className="flex-1 max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg">
+      <div
+        id="buscar-doencas"
+        className="flex flex-col md:flex-row justify-center items-center w-full gap-10 mt-10"
+      >
+        {/* Card de Busca */}
+        <div
+          className={`flex-1 max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg ${
+            mostrarMedicos ? '' : 'mx-auto'
+          }`}
+        >
           <h1 className="text-3xl font-bold mb-8 text-primary-500 text-center">Buscar Doenças</h1>
 
           <div className="relative mb-8">
@@ -102,10 +112,12 @@ const BuscaDoencas: React.FC = () => {
           </div>
         </div>
 
-        {/* Componente de Médicos */}
-        <div className="flex-1 max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg">
-          <Clientes handleProfessionalClick={handleProfessionalClick} />
-        </div>
+        {/* Card de Médicos - Oculto inicialmente */}
+        {mostrarMedicos && (
+          <div className="flex-1 max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg md:mt-0 mt-10">
+            <Clientes handleProfessionalClick={handleProfessionalClick} />
+          </div>
+        )}
       </div>
     </div>
   );

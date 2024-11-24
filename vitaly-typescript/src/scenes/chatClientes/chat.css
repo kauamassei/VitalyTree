@@ -21,9 +21,13 @@ body {
     background-color: #9db8a9;
 }
 
+.login__warning{
+    color: #fff;
+}
 .login {
     width: 100%;
     max-width: 330px;
+    color: #fff;
     background-color: #212121;
     border-radius: 5px;
     padding: 20px;

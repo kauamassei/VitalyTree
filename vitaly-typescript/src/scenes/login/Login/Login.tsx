@@ -1,139 +1,165 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Login.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '@/firebase'; // Ajuste o caminho conforme necessário
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+
 import video from '../../../LoginAssets/video.mp4';
-import logo from '../../../LoginAssets/logo.png';
-import { FaEnvelope } from 'react-icons/fa';
-import { BsFillShieldLockFill } from 'react-icons/bs';
-import { AiOutlineSwapRight } from 'react-icons/ai';
+import logo from '../../../assets/LogoVitalytree.svg';
+
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button"
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { useToast } from "@/hooks/use-toast"
+
+const formSchema = z.object({
+    email: z
+        .string({
+            message: "Por favor escreva seu email"
+        })
+        .email({
+            message: "Por favor escreva um email valido"
+        }),
+    senha: z.string({
+        message: "Por favor escreva uma senha"
+    }),
+})
 
 const Login: React.FC = () => {
-  const [loginEmail, setLoginEmail] = useState<string>(''); 
-  const [loginPassword, setLoginPassword] = useState<string>('');
-  
-  const navigateTo = useNavigate();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    })
+    const { toast } = useToast()
 
-  const loginUser = async (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-  
-    try {
-      const response = await fetch('http://localhost:3001/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: loginEmail, senha: loginPassword }),
-      });
-  
-      if (response.ok) {
-        const userData = await response.json();
-        // Armazenando dados no localStorage para uso na tela de perfil
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("clinicaData", JSON.stringify({
-          id: userData.id_usuario,
-          name: userData.nome,
-          email: userData.email,
-        }));
-        navigateTo('/perfil'); // Redireciona para a tela de perfil
-      } else {
-        console.log("Erro: Email ou senha inválidos");
-        alert("Email ou senha inválidos");
-      }
-    } catch (error) {
-      console.error("Erro ao tentar realizar login:", error);
-      alert("Erro ao tentar realizar login. Tente novamente mais tarde.");
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        loginUser(values)
     }
-  };
-  
 
-  const loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+    const navigateTo = useNavigate();
 
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("userData", JSON.stringify({
-        name: user.displayName, 
-        photo: user.photoURL, 
-        email: user.email
-      }));
+    const loginUser = async (values: z.infer<typeof formSchema>) => {
 
-      navigateTo('/perfil');
-    } catch (error) {
-      console.error("Erro ao fazer login com Google:", error);
-    }
-  };
+        try {
+            const response = await fetch('http://localhost:3001/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(values),
+            });
 
-  return (
-    <div className="loginPageContainer">
-      <div className="loginPage flex">
-        <div className="container flex">
-          <div className="videoDiv">
-            <video src={video} autoPlay muted loop></video>
-            <div className="textDiv">
-              <h2 className="title">Entre e avalie nossos serviços</h2>
-              <p>Adote o costume de se cuidar!</p>
+            if (response.ok) {
+                const userData = await response.json();
+                // Armazenando dados no localStorage para uso na tela de perfil
+                toast({
+                    title: `${userData.nome} Logado com sucesso`,
+                })
+
+                localStorage.setItem("isAuthenticated", "true");
+                localStorage.setItem("clinicaData", JSON.stringify({
+                    id: userData.id_usuario,
+                    name: userData.nome,
+                    email: userData.email,
+                }));
+                navigateTo('/perfil'); // Redireciona para a tela de perfil
+            } else {
+                console.log("Erro: Email ou senha inválidos");
+                alert("Email ou senha inválidos");
+                toast({
+                    title: `Error`,
+                    variant: "destructive",
+                    description: "Email ou senha inválidos"
+                })
+            }
+        } catch (error) {
+            console.error("Erro ao tentar realizar login:", error);
+            alert("");
+            toast({
+                title: `Error`,
+                variant: "destructive",
+                description: "Erro ao tentar realizar login. Tente novamente mais tarde."
+            })
+        }
+    };
+
+
+    const loginWithGoogle = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            localStorage.setItem("isAuthenticated", "true");
+            localStorage.setItem("userData", JSON.stringify({
+                name: user.displayName,
+                photo: user.photoURL,
+                email: user.email
+            }));
+
+            navigateTo('/perfil');
+        } catch (error) {
+            console.error("Erro ao fazer login com Google:", error);
+        }
+    };
+
+    return (
+        <div className=" relative bg-auth bg-center bg-no-repeat bg-cover min-h-screen w-full flex items-center justify-center">
+            <div className=' z-10 max-w-[800px] bg-slate-50/50 rounded-lg drop-shadow-md backdrop-blur-sm'>
+                <section className='px-8 py-6 flex flex-col items-center justify-center w-full'>
+                    <img src={logo} className='h-24 w-auto' />
+                    <span className="w-full text-lg text-center font-bold mb-2">Bem vindo de volta!</span>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Email" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+
+                            <FormField
+                                control={form.control}
+                                name="senha"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder="Senha" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <Button type="submit" className='w-full bg-primary-300'>Log in</Button>
+                            <Button className='w-full bg-primary-300'
+                                onClick={loginWithGoogle}
+                            >Log in com Google</Button>
+                            <div className="flex flex-col">
+                                <span className="text">Não possui uma conta? <Link to={'/options'} className='hover:text-primary-200'>Cadastre-se</Link></span>
+                                <span className="text">Esqueceu sua senha? <Link to={'/options'} className='hover:text-primary-200' >Clique Aqui</Link></span>
+                            </div>
+
+                        </form>
+                    </Form>
+                </section>
+
             </div>
-          </div>
-
-          <div className="formDiv flex">
-            <div className="headerDiv">
-              <img className='logoVT' src={logo} alt="logo image" />
-              <h3>Bem vindo de volta!</h3>
-            </div>
-            <form className="form grid">
-              <div className="inputDiv">
-                <label htmlFor="email">Email</label>
-                <div className="input flex">
-                  <FaEnvelope className="icon" />
-                  <input
-                    type="email"
-                    id="email"
-                    placeholder="Insira seu Email"
-                    onChange={(event) => setLoginEmail(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="inputDiv">
-                <label htmlFor="password">Senha</label>
-                <div className="input flex">
-                  <BsFillShieldLockFill className="icon" />
-                  <input
-                    type="password"
-                    id="password"
-                    placeholder="Insira sua Senha"
-                    onChange={(event) => setLoginPassword(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <button type="submit" className="btn flex" onClick={loginUser}>
-                <span>Login</span>
-                <AiOutlineSwapRight className="icon" />
-              </button>
-
-              <button type="button" className="btn flex google-btn" onClick={loginWithGoogle}>
-                <FontAwesomeIcon icon={faGoogle} />
-                <span>Login com Google</span>
-              </button>
-              <span className="text">Não possui uma conta?</span>
-              <Link to={'/options'}>
-                <p>Cadastre-se</p>
-              </Link>
-
-              <span className="forgotPassword">
-                Esqueceu sua senha? <a href="">Clique Aqui</a>
-              </span>
-            </form>
-          </div>
+            <video src={video} autoPlay muted loop className='absolute h-[550px] z-0 w-[500px] object-cover rounded-lg  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'></video>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
-
 export default Login;

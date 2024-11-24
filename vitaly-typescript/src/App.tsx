@@ -10,6 +10,7 @@ import Benefícios from "@/scenes/benefits";
 import Clientes from "@/scenes/clientes"
 import ContactUs from "@/scenes/contactUs";
 import Footer from "@/scenes/footer";
+import FooterAssinatura from "@/scenes/footer/footer2";
 import ChatClient from "@/scenes/chatClientes"
 ////
 import Login from '@/scenes/login/Login/Login';
@@ -21,6 +22,8 @@ import Planos from "@/scenes/assinatura/planos"
 import RegistrationOptions from "@/scenes/login/RegisOptions";
 import RProfi from "@/scenes/login/RProfi";
 import Perfil from "@/scenes/perfil";
+import ChatHistory from "@/scenes/perfil/chatHistory";
+import PerfilProfissional from "@/scenes/perfil/perfilProfissional";
 import ClinicaRegister from "@/scenes/login/RegClinica"
 import Sucesso from "@/scenes/assinatura/status/success"
 import Falha from "@/scenes/assinatura/status/failure"
@@ -111,7 +114,7 @@ const router = createBrowserRouter([
     element: <Planos />,
   },
   {
-    path: '/ChatClient', // Rota para tela de escolher assinatura
+    path: '/ChatClient',
     element: <ChatClient />,
   },
   //////////////
@@ -127,6 +130,15 @@ const router = createBrowserRouter([
     path: '/pendente', // Rota para tela de pendente vai tomar no cu mercado pago api e tcc e etc vsf
     element: <Pendente />,
   },
+  {
+    path: '/perfilProfissional', // Rota para tela de perfil profissional
+    element: <PerfilProfissional/>,
+  },
+  {
+    path: '/conversas', // 
+    element: <ChatHistory />, //
+  },
+
 ]);
 
 

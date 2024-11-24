@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import '@/scenes/assinatura/assinatura.css';
 import { Spacer } from '@chakra-ui/react';
+import Navbar from '@/scenes/navbar';
+import FooterAssinatura from '@/scenes/footer/footer2';
 
 const Planos = () => {
   const navigate = useNavigate();
@@ -11,10 +13,10 @@ const Planos = () => {
   };
 
   return (
-    <div id="title">
-      <h6 className='assinatura'>Escolha seu plano</h6> {/* Título atualizado */}
+    <><Navbar setSelectedPage={() => { } } /><div id="title">
+     
       <div className='containerAssinatura'>
-      
+
 
         {/* Card do primeiro plano */}
         <div
@@ -64,6 +66,7 @@ const Planos = () => {
 
       </div>
     </div>
+    <FooterAssinatura setSelectedPage={() => { } } /></>
   );
 };
 

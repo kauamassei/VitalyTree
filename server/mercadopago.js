@@ -1,4 +1,3 @@
-
 const express = require("express");
 const axios = require("axios");
 const bodyParser = require("body-parser");
@@ -7,7 +6,7 @@ const MercadoPago = require("mercadopago");
 const app = express();
 const port = 3005;
 
-MercadoPago.configurations.setAccessToken("TEST-2abfaa8c-cdcc-47e2-ad41-970f072e5f56");
+MercadoPago.configurations.setAccessToken("TEST-7014999298970403-112015-bf1dd8bf1281805ed6344d08b16f19e9-2031127060");
 
 app.use(bodyParser.json());
 
@@ -34,16 +33,16 @@ app.post("/create-preference", async (req, res) => {
       installments: 1, // Defina o número de parcelas (caso haja)
     },
     back_urls: {
-        success: "http://localhost:5173/sucesso",
-        failure: "http://localhost:5173/falha",
-        pending: "http://localhost:5173/pendente",
+      success: "http://localhost:5173/sucesso",
+      failure: "http://localhost:5173/falha",
+      pending: "http://localhost:5173/pendente",
     },
     notification_url: "http://localhost:3000/notification", // URL de notificação para o Mercado Pago
   };
 
   try {
     const preferenceResponse = await MercadoPago.preferences.create(preference);
-    const initPoint = preferenceResponse.body.init_point; // URL para o checkout
+    const init_point = preferenceResponse.body.init_point; // URL para o checkout
 
     // Retorna a URL do checkout para o frontend
     res.json({ init_point });

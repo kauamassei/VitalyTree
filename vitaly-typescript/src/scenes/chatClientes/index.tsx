@@ -72,7 +72,7 @@ const ChatClient: React.FC = () => {
 
   const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     if (websocket && user) {
       const message: Message = {
         userId: user.id,
@@ -80,11 +80,29 @@ const ChatClient: React.FC = () => {
         userColor: user.color,
         content: chatInputValue,
       };
+  
+      // Envia mensagem pelo WebSocket
       websocket.send(JSON.stringify(message));
       setChatInputValue('');
+  
+      // Salva no histórico
+      const currentHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+      const chatEntry = {
+        professionalId,
+        professionalName,
+        professionalSpecialty,
+        messages: [...(currentHistory.find((c: any) => c.professionalId === professionalId)?.messages || []), message],
+      };
+  
+      const updatedHistory = [
+        ...currentHistory.filter((c: any) => c.professionalId !== professionalId),
+        chatEntry,
+      ];
+  
+      localStorage.setItem('chatHistory', JSON.stringify(updatedHistory));
     }
   };
-
+  
   const processMessage = (data: string) => {
     const parsedData: Message = JSON.parse(data);
     setMessages((prevMessages) => [...prevMessages, parsedData]);
@@ -126,11 +144,16 @@ const ChatClient: React.FC = () => {
       {!user ? (
         <section className="login">
           <h2>Login</h2>
+          <p className="login__warning">
+            Respeite as boas práticas de comunicação: <br />
+            Não use linguagem vulgar, mantenha o respeito e evite ofensas.
+          </p>
+          <br />
           <form onSubmit={handleLogin} className="login__form">
             <input
               type="text"
               className="login__input"
-              placeholder="Seu nome"
+              placeholder="Confirme seu nome"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               required

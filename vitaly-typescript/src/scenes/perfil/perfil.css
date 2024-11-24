@@ -116,6 +116,57 @@ body {
     font-size: 0.9em;
     color: #777;
   }
+
+  .chat-history-container {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .chat-history-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .chat-history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .chat-history-item {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .chat-history-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .chat-history-empty {
+    color: #999;
+    font-style: italic;
+  }
+
+  .chat-history-delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .chat-history-delete-btn:hover {
+    background-color: darkred;
+  }
+  
+  
   
   /* Media Queries para Responsividade */
   @media (max-width: 768px) {
