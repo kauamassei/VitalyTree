@@ -10,7 +10,7 @@ const Footer = () => {
           <p className="my-5">
             Acesse os nossos <a href={termosPdf} download="Termos_de_Uso_Vitalytree.pdf" className="text-blue-500 underline">Termos de Uso</a> e <a href={termosPdf} download="Politica_de_Privacidade_Vitalytree.pdf" className="text-blue-500 underline">Política de Privacidade</a>.
           </p>
-          <p>© 2023 - VitalyTree Todos Os Direitos Reservados.</p>
+          <p>© 2024 - VitalyTree Todos Os Direitos Reservados.</p>
         </div>
         <div></div>
         <div></div>

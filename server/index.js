@@ -20,7 +20,7 @@ app.listen(port, () => {
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-
+//FERREIRA NAO APAGA ISSO É O BACK DO CHAT
 import { WebSocketServer } from 'ws'
 import dotenv from "dotenv"
 
@@ -37,4 +37,6 @@ wss.on("connection", (ws) => {
 
     console.log("client connected")
 })
+///////////////////////////////////////////////////////////////////////////
+//BACKEND DA API PAGAMENTO
 

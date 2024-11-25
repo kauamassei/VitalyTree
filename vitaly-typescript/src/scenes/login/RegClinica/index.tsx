@@ -110,7 +110,7 @@ const ClinicaRegister: React.FC = () => {
                     <span className="w-full text-lg text-center font-bold">Cadastro de Hospital ou Clínica </span>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full mt-4">
-                            <div className="grid grid-cols-2 gap-6  w-full ">
+                            <div className="grid sm:grid-cols-2 gap-6  w-full ">
                                 <FormField
                                     control={form.control}
                                     name="email"

@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { FaUserMd, FaBullhorn, FaTabletAlt } from 'react-icons/fa';
 
+
 const formSchema = z.object({
     email: z
         .string({

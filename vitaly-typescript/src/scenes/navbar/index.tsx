@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/solid";
-import Logo from "@/assets/Logo.png";
+import logo from '@/assets/LogoVitalytree.svg';
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ActionButton from "@/shared/ActionButton";
@@ -32,7 +32,7 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                 <div className={`${flexBetween} mx-auto w-5/6`}>
                     <div className={`${flexBetween} w-full gap-16`}>
                     <a href="/" className="flex items-center">
-                    <img alt="logo" src={Logo} />
+                    <img src={logo} className='h-20 w-auto' />
                     </a>
 
                         

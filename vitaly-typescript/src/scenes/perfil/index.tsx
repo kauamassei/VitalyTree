@@ -62,6 +62,7 @@ const Perfil: React.FC = () => {
       <div className="perfil-card">
         <div className="perfil-sidebar">
           <a className="perfil-link active" href="#account-general">Geral</a>
+          <a className="perfil-link active" onClick={() => navigate('/planos')}>Planos de Assinatura</a> 
           <a className="perfil-link" href="#account-conversations">Conversas</a>
           <div id="account-conversations" className="perfil-tab">
             <h4>Histórico de Conversas</h4>
@@ -141,8 +142,7 @@ const Perfil: React.FC = () => {
         <button
           type="button"
           className="perfil-landing-btn"
-          onClick={() => navigate('/')}
-        >
+          onClick={() => navigate('/')}>
           Voltar
         </button>
         <br />
