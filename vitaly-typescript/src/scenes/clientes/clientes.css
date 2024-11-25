@@ -1,0 +1,108 @@
+.payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .cardPayment, .form-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  
+  .cardPayment {
+    background: linear-gradient(90deg, rgb(174, 255, 167) 0%, rgb(167, 255, 211) 100%);
+  }
+  
+  .form-container {
+    background-color: #fff;
+  }
+  
+  .payment-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-direction: column;
+  }
+  
+  .payment-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 12px;
+  }
+  
+  .payment-button img {
+    max-width: 20px;
+    max-height: 20px;
+  }
+  
+  .payment-button:hover {
+    border-color: #15c95a;
+  }
+  
+  .payment-button.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+  
+  .confirmation {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .form-container h3 {
+    margin-bottom: 15px;
+  }
+  
+  .form-container input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007e43;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+    width: 100%;
+  }
+  
+  /* Responsividade: cards empilhados em telas menores e invertidos */
+  @media (max-width: 768px) {
+    .payment-container {
+      flex-direction: column-reverse; /* Inverte a ordem dos cards */
+      align-items: flex-start; /* Garante que o topo seja visível */
+      gap: 20px;
+    }
+  
+    .cardPayment, .form-container {
+      max-width: 100%; /* Garante que ocupem toda a largura disponível */
+    }
+  }
+  

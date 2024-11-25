@@ -1,0 +1,214 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+html {
+  font-size: 90%;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.icon {
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.loginPage, .registerPage {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 7px 50px rgba(214, 223, 213, 0.5);
+  background: hsl(0, 0%, 91%);
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.videoDiv {
+  display: none; /* Oculta o vídeo para layout mais focado no form */
+}
+
+.formDiv {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerDiv {
+  text-align: center;
+  padding-bottom: 1.5rem;
+}
+
+.headerDiv img {
+  width: 60px;
+}
+
+.headerDiv h3 {
+  font-size: 1.5rem;
+  color: hsl(0, 0%, 18%);
+  font-weight: 600;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.inputDiv {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputDiv label {
+  color: hsl(0, 0%, 18%);
+  font-weight: 400;
+  font-size: 0.875rem;
+  padding-bottom: 0.5rem;
+}
+
+.inputDiv .input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: hsl(330, 12%, 97%);
+  border-radius: 10px;
+  width: 100%;
+}
+
+.inputDiv input {
+  width: 100%;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+}
+
+.form .btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: hsl(114, 55%, 56%);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.form .btn:hover {
+  background: hsl(105, 75%, 76%);
+}
+
+/* Estilo para botões de navegação */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.navigation-buttons .nav-btn {
+  width: 48%;
+  padding: 0.8rem;
+  background: hsl(240, 55%, 56%);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.navigation-buttons .nav-btn:hover {
+  background: hsl(240, 75%, 76%);
+}
+
+.forgotPassword {
+  font-size: 0.875rem;
+  color: hsl(0, 0%, 18%);
+  text-align: center;
+  opacity: 0.7;
+}
+
+.forgotPassword a {
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 1;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+  .formDiv {
+    width: 100%;
+  }
+  .headerDiv h3 {
+    font-size: 1.25rem;
+  }
+  .inputDiv .input {
+    padding: 0.75rem;
+  }
+  .form .btn {
+    font-size: 0.875rem;
+    padding: 0.7rem;
+  }
+  .navigation-buttons .nav-btn {
+    font-size: 0.875rem;
+    padding: 0.7rem;
+  }
+}
+@media (max-width: 480px) {
+  html {
+    font-size: 80%;
+  }
+  .headerDiv h3 {
+    font-size: 1rem;
+  }
+  .container {
+    padding: 1rem;
+  }
+  .inputDiv .input {
+    padding: 0.5rem;
+  }
+  .form .btn {
+    font-size: 0.75rem;
+    padding: 0.6rem;
+  }
+  .navigation-buttons .nav-btn {
+    font-size: 0.75rem;
+    padding: 0.6rem;
+  }
+}/*# sourceMappingURL=Login.css.map */

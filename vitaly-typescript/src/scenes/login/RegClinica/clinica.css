@@ -1,0 +1,106 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.clinicaRegisterPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+    padding: 20px; /* Adiciona espaçamento nas bordas da tela */
+}
+
+.clinicaRegisterContainer {
+    width: 100%;
+    max-width: 800px; /* Largura máxima do contêiner */
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap; /* Permite que os filhos envolvam em várias linhas */
+    align-items: flex-start; /* Alinhamento superior dos itens */
+}
+
+.clinicaRegisterHeader {
+    text-align: center;
+    width: 100%; /* Faz o cabeçalho ocupar a largura total */
+    margin-bottom: 1rem;
+}
+
+.clinicaRegisterHeader img {
+    width: 60px; /* Largura do logo */
+}
+
+.clinicaRegisterHeader h3 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.clinicaRegisterForm {
+    width: 100%; /* Largura total do formulário */
+    display: flex;
+    flex-direction: row; /* Alinhamento horizontal dos elementos */
+    flex-wrap: wrap; /* Permite que os elementos se movam para a próxima linha quando necessário */
+}
+
+.clinicaRegisterInputDiv {
+    flex: 1 1 45%; /* Itens ocuparão 45% da largura do contêiner */
+    margin-bottom: 1rem;
+    padding: 0 10px; /* Adiciona espaçamento lateral */
+}
+
+.clinicaRegisterInputDiv label {
+    display: block;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.clinicaRegisterInputDiv input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.clinicaRegisterBtn {
+    width: 100%;
+    padding: 0.8rem;
+    background: #4CAF50; /* Cor esverdeada */
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.clinicaRegisterBtn:hover {
+    background: #45a049; /* Tom mais escuro ao passar o mouse */
+}
+
+.clinicaRegisterNavButtons {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.clinicaRegisterNavButtons .clinicaRegisterNavBtn {
+    color: #4CAF50;
+    text-decoration: underline;
+}
+
+/* Media Query para telas menores */
+@media (max-width: 600px) {
+    .clinicaRegisterInputDiv {
+        flex: 1 1 100%; /* Em telas menores, ocuparão 100% da largura */
+    }
+
+    .clinicaRegisterForm {
+        flex-direction: column; /* Muda para alinhamento vertical em telas menores */
+    }
+}

@@ -1,0 +1,210 @@
+body {
+    background: #f5f5f5;
+    margin-top: 20px;
+  }
+  
+  .perfil-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .perfil-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .perfil-card {
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    flex-wrap: wrap; /* Permite que os itens se movam em telas menores */
+  }
+  
+  .perfil-sidebar {
+    width: 25%;
+    border-right: 1px solid #e0e0e0;
+    padding: 10px;
+    order: 1; /* Define a ordem padrão da sidebar */
+  }
+  
+  .perfil-link {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .perfil-link.active {
+    font-weight: bold;
+    color: #28a745; /* Cor verde para a aba ativa */
+  }
+  
+  .perfil-content {
+    width: 75%;
+    padding: 10px;
+    order: 2; /* Define a ordem padrão do conteúdo */
+  }
+  
+  .perfil-avatar-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .perfil-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .perfil-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .perfil-upload-btn {
+    cursor: pointer;
+    color: #28a745; /* Cor verde para o botão de upload */
+  }
+  
+  .perfil-reset-btn, .perfil-save-btn, .perfil-cancel-btn, .perfil-landing-btn {
+    background: #28a745; /* Cor verde para os botões */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .perfil-logout-btn{
+    background: #a72828; /* Cor verde para os botões */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-left: 10px;
+
+  }
+  
+  .perfil-input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .perfil-alert {
+    color: #FF0000;
+    margin-top: 8px;
+  }
+  
+  .perfil-file-input {
+    display: none;
+  }
+  
+  .perfil-note {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #777;
+  }
+
+  .chat-history-container {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .chat-history-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .chat-history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .chat-history-item {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .chat-history-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .chat-history-empty {
+    color: #999;
+    font-style: italic;
+  }
+
+  .chat-history-delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .chat-history-delete-btn:hover {
+    background-color: darkred;
+  }
+  
+  
+  
+  /* Media Queries para Responsividade */
+  @media (max-width: 768px) {
+    .perfil-card {
+      flex-direction: column; /* Muda para coluna em telas menores */
+    }
+  
+    .perfil-sidebar {
+      width: 100%; /* Sidebar ocupa toda a largura em telas menores */
+      border-right: none; /* Remove a borda direita */
+      border-bottom: 1px solid #e0e0e0; /* Adiciona uma borda inferior */
+      order: 2; /* Move a sidebar para baixo */
+    }
+  
+    .perfil-content {
+      width: 100%; /* Content ocupa toda a largura */
+      padding: 10px; /* Mantém o padding */
+      order: 1; /* Move o conteúdo para cima */
+    }
+  
+    .perfil-avatar-section {
+      flex-direction: column; /* Alinha itens em coluna */
+      align-items: flex-start; /* Alinha itens à esquerda */
+    }
+  
+    .perfil-avatar {
+      margin-bottom: 10px; /* Adiciona espaçamento abaixo do avatar */
+    }
+  
+    .perfil-actions {
+      flex-direction: column; /* Alinha os botões em coluna */
+      align-items: flex-end; /* Alinha os botões à direita */
+      margin-top: 20px; /* Adiciona margem no topo */
+    }
+  
+    .perfil-reset-btn, .perfil-save-btn, .perfil-cancel-btn {
+      margin-left: 0; /* Remove margem à esquerda */
+      margin-top: 10px; /* Adiciona margem superior */
+    }
+  }
+  

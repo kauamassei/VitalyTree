@@ -1,0 +1,112 @@
+/* Definindo uma altura mínima para o container, fazendo-o ocupar mais espaço da tela */
+.registration-container {
+    max-width: 400px;
+    min-height: 80vh; /* O container agora ocupa 80% da altura da tela */
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribui o conteúdo verticalmente */
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%; /* Preenche toda a largura do container */
+    flex-grow: 1; /* Faz o grupo de opções ocupar o máximo de espaço vertical possível */
+
+  label {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  label:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+
+  .submit-button {
+    width: 80%; /* Botão ocupa 80% da largura do container */
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    align-self: center; /* Centraliza o botão no container */
+  }
+
+  .submit-button:hover {
+    background-color: #45a049;
+  }
+
+  /* Media Queries para Responsividade */
+  @media (max-width: 768px) {
+    .registration-container {
+      max-width: 90%; /* O container ocupa 90% da largura da tela */
+      min-height: 85vh; /* Aumenta a altura mínima para ocupar mais espaço da tela */
+      padding: 15px;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+    }
+
+  .option-group {
+    label {
+      font-size: 14px; /* Reduz o tamanho da fonte */
+      padding: 10px 12px;
+    }
+}
+    .submit-button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .registration-container {
+      max-width: 100%; /* Ocupa 100% da largura em telas muito pequenas */
+      min-height: 90vh; /* O container ocupa 90% da altura da tela */
+      padding: 10px;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+    }
+
+    label {
+      font-size: 13px; /* Fonte um pouco menor */
+      padding: 8px 10px;
+    }
+
+    .submit-button {
+      width: 100%; /* Botão ocupa toda a largura do container */
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
