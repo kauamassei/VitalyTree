@@ -85,17 +85,23 @@ const BuscaDoencas: React.FC = () => {
           </div>
 
           {/* Card de resultados de doenças */}
-          <div className="mt-8 w-full bg-white p-4 border border-gray-300 rounded-lg shadow-lg max-h-[400px] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">Resultados para {nomeDoenca}</h2>
-            <ul>
-              {doencas.map((doenca, index) => (
-                <li key={index} className="mb-2">
-                  <p className="text-gray-800 font-semibold">{doenca.nome}</p>
-                  <p className="text-gray-600">{doenca.descricao}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+<div className="mt-8 w-full bg-white p-4 border border-gray-300 rounded-lg shadow-lg max-h-[400px] overflow-y-auto">
+  <h2 className="text-xl font-bold mb-4">Resultados para {nomeDoenca}</h2>
+  <ul>
+    {doencas.map((doenca, index) => (
+      <li key={index} className="mb-4">
+        <p className="text-gray-800 font-semibold">{doenca.nome}</p>
+        <p className="text-gray-600">{doenca.descricao}</p>
+        {doenca.tipo_recomendacao && (
+          <p className="text-gray-600">Recomendação: {doenca.tipo_recomendacao}</p>
+        )}
+        {doenca.especialista_nome && (
+          <p className="text-gray-600">Especialista: {doenca.especialista_nome}</p>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>
 
           {/* Card de notícias */}
           <div className="mt-8 w-full bg-white p-4 border border-gray-300 rounded-lg shadow-lg max-h-[400px] overflow-y-auto">

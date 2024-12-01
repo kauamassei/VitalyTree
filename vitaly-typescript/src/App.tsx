@@ -29,6 +29,8 @@ import Sucesso from "@/scenes/assinatura/status/success"
 import Falha from "@/scenes/assinatura/status/failure"
 import Pendente from "@/scenes/assinatura/status/pending"
 
+import WhatsApp from "@/scenes/whastapp"
+
 
 // Componente que renderiza a landing page
 const LandingPage = () => {
@@ -61,6 +63,7 @@ const LandingPage = () => {
       <OurClasses setSelectedPage={setSelectedPage} />
       <ContactUs setSelectedPage={setSelectedPage} />
       <Footer />
+      <WhatsApp />
     </div>
   );
 };

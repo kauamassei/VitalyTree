@@ -21,22 +21,39 @@ app.listen(port, () => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //FERREIRA NAO APAGA ISSO É O BACK DO CHAT
-import { WebSocketServer } from 'ws'
-import dotenv from "dotenv"
+import { WebSocketServer } from 'ws';
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
-const wss = new WebSocketServer({ port: 3002 })
+const wss = new WebSocketServer({ port: 3002 });
+const chatMessages = {}; // Armazenamento temporário para mensagens por profissional
 
-wss.on("connection", (ws) => {
-    ws.on("error", console.error)
+wss.on('connection', (ws) => {
+  ws.on('error', console.error);
 
-    ws.on("message", (data) => {
-        wss.clients.forEach((client) => client.send(data.toString()))
-    })
+  ws.on('message', (data) => {
+    const message = JSON.parse(data);
 
-    console.log("client connected")
-})
-///////////////////////////////////////////////////////////////////////////
-//BACKEND DA API PAGAMENTO
+    if (message.type === 'getHistory') {
+      // Enviar histórico de mensagens para o cliente
+      const history = chatMessages[message.professionalId] || [];
+      ws.send(JSON.stringify(history));
+    } else {
+      // Salvar mensagem no histórico
+      if (!chatMessages[message.professionalId]) {
+        chatMessages[message.professionalId] = [];
+      }
+      chatMessages[message.professionalId].push(message);
 
+      // Enviar mensagem para todos os clientes conectados
+      wss.clients.forEach((client) => {
+        if (client.readyState === ws.OPEN) {
+          client.send(JSON.stringify(message));
+        }
+      });
+    }
+  });
+
+  console.log('Cliente conectado');
+});

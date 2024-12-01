@@ -72,7 +72,7 @@ const ChatClient: React.FC = () => {
 
   const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     if (websocket && user) {
       const message: Message = {
         userId: user.id,
@@ -80,12 +80,11 @@ const ChatClient: React.FC = () => {
         userColor: user.color,
         content: chatInputValue,
       };
-  
-      // Envia mensagem pelo WebSocket
+
       websocket.send(JSON.stringify(message));
       setChatInputValue('');
-  
-      // Salva no histórico
+
+      // Salvar no histórico
       const currentHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
       const chatEntry = {
         professionalId,
@@ -93,42 +92,40 @@ const ChatClient: React.FC = () => {
         professionalSpecialty,
         messages: [...(currentHistory.find((c: any) => c.professionalId === professionalId)?.messages || []), message],
       };
-  
+
       const updatedHistory = [
         ...currentHistory.filter((c: any) => c.professionalId !== professionalId),
         chatEntry,
       ];
-  
+
       localStorage.setItem('chatHistory', JSON.stringify(updatedHistory));
     }
   };
-  
+
   const processMessage = (data: string) => {
     const parsedData: Message = JSON.parse(data);
     setMessages((prevMessages) => [...prevMessages, parsedData]);
     scrollScreen();
   };
 
-  // Buscar informações do profissional quando o ID for encontrado
+  // Buscar informações do profissional
   useEffect(() => {
     if (professionalId) {
-      // Simulação de busca do profissional com base no ID
-      // Substitua isso por uma chamada API real, se necessário
       switch (professionalId) {
         case '1':
           setProfessionalName('Maria Silva');
           setProfessionalSpecialty('Terapeuta');
-          setProfessionalPhoto(medicadoida); // Substituir com URL real
+          setProfessionalPhoto(medicadoida);
           break;
         case '2':
           setProfessionalName('João Pereira');
           setProfessionalSpecialty('Clínico Geral');
-          setProfessionalPhoto(medicocalvo); // Substituir com URL real
+          setProfessionalPhoto(medicocalvo);
           break;
         case '3':
           setProfessionalName('Ana Costa');
           setProfessionalSpecialty('Psicóloga');
-          setProfessionalPhoto(medicafelizcomaprofissao); // Substituir com URL real
+          setProfessionalPhoto(medicafelizcomaprofissao);
           break;
         default:
           setProfessionalName('Profissional Não Encontrado');
@@ -139,11 +136,21 @@ const ChatClient: React.FC = () => {
     }
   }, [professionalId]);
 
+  // Carregar histórico ao entrar no chat
+  useEffect(() => {
+    if (user && professionalId) {
+      const currentHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+      const chatEntry = currentHistory.find((c: any) => c.professionalId === professionalId);
+      if (chatEntry) {
+        setMessages(chatEntry.messages || []);
+      }
+    }
+  }, [user, professionalId]);
+
   return (
     <div className="containerChat">
       {!user ? (
         <section className="login">
-          <h2>Login</h2>
           <p className="login__warning">
             Respeite as boas práticas de comunicação: <br />
             Não use linguagem vulgar, mantenha o respeito e evite ofensas.
@@ -179,7 +186,6 @@ const ChatClient: React.FC = () => {
                 <p>{professionalSpecialty}</p>
               </div>
             </div>
-            
           </div>
           <div className="chat__messages">
             {messages.map((message, index) => (

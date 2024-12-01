@@ -62,43 +62,46 @@ const formSchema = z.object({
 const Planos = () => {
     const navigate = useNavigate();
     const [selectedPlan, setSelectedPlan] = useState<string>("");
+    const [qrcode, setQrcode] = useState<string>("");
+    
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     })
     const { toast } = useToast()
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-            toast({
-                title: `test`,
-                description: `${values.email} , ${values.paymentMethod}, ${selectedPlan}`
-            })
-    }
-
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-
         try {
-            const response = await axios.post("http://localhost:3005/create-preference", {
-                email: values.email, // E-mail do usuário
-                cpf: values.cpf, // E-mail do usuário
-                password: values.email,
-                description: "Assinatura Mensal - R$"+selectedPlan, // Plano escolhido
-                price: selectedPlan,
-                paymentMethod: values.paymentMethod, // Forma de pagamento escolhida
+            const response = await axios.post("http://localhost:3001/create-pix", {
+                email: values.email,
+                cpf: values.cpf,
+                password: values.password,
+                description: "Assinatura Mensal - R$" + selectedPlan,
+                price: parseInt(selectedPlan),
             });
 
-            // Redireciona para o checkout do Mercado Pago
-            window.location.href = response.data.ticket_url;
+            toast({
+                title: "Sucesso",
+                description: `${values.email}, ${values.paymentMethod}, ${selectedPlan}`
+            });
+            console.log(response.data);
+
+            setQrcode(response.data.point_of_interaction.transaction_data.qr_code_base64)
+            // window.location.href = response.data.point_of_interaction.transaction_data.ticket_url;
+           
         } catch (error) {
             console.error("Erro ao criar a preferência:", error);
             toast({
-                title: `Error`,
+                title: "Error",
                 variant: "destructive",
                 description: "Erro ao iniciar o pagamento. Tente novamente."
-            })
+            });
         }
     };
 
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        handleSubmit(values);
+    }
 
     return (
         <>
@@ -117,18 +120,18 @@ const Planos = () => {
 
                     {/* Card do segundo plano */}
                     <PlanoCard
-                        title="Assinatura Mensal"
-                        price="210,00"
-                        handlePlano={() => setSelectedPlan('210')}
+                        title="Assinatura Trimestral"
+                        price="250,00"
+                        handlePlano={() => setSelectedPlan('250')}
                         description="Gerencie suas consultas de forma eficiente com nosso sistema de agendamento inteligente, ofereça consultas online com telemedicina integrada."
                     />
 
                     {/* Card do terceiro plano */}
 
                     <PlanoCard
-                        title="Assinatura Mensal"
-                        price="300,00"
-                        handlePlano={() => setSelectedPlan('300')}
+                        title="Assinatura Anual"
+                        price="500,00"
+                        handlePlano={() => setSelectedPlan('500')}
                         description="Gerencie suas consultas de forma eficiente com nosso sistema de agendamento inteligente, ofereça consultas online com telemedicina integrada."
                     />
 
@@ -223,7 +226,9 @@ const Planos = () => {
 
                                     <Button type="submit" className='w-full bg-primary-300'>Confirmar</Button>
                                 </form>
+                                <img width="100" height="100" src={`data:image/jpeg;base64,${qrcode}`}/>
                             </Form>
+
                         </DialogHeader>
                     </DialogContent>
 

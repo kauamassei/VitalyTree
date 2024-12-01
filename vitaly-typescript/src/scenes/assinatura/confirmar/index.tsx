@@ -57,6 +57,7 @@ const formSchema = z.object({
 const PaymentMethods: React.FC = () => {
     const { state } = useLocation();
     const selectedPlan = state?.selectedPlan || "Nenhum plano selecionado";
+    const [qrcode, setQrcode] = useState<string>("");
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -70,14 +71,14 @@ const PaymentMethods: React.FC = () => {
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
 
         try {
-            const response = await axios.post("http://localhost:3005/create-preference", {
+            const response = await axios.post("http://localhost:3001/create-pix", {
                 email: values.email, // E-mail do usuário
                 plan: selectedPlan, // Plano escolhido
                 paymentMethod: values.paymentMethod, // Forma de pagamento escolhida
             });
 
-            // Redireciona para o checkout do Mercado Pago
-            window.location.href = response.data.init_point;
+            setQrcode(response.data.point_of_interaction.transaction_data.qr_code_base64)
+            // window.location.href = response.data.point_of_interaction.transaction_data.ticket_url;
         } catch (error) {
             console.error("Erro ao criar a preferência:", error);
             toast({
@@ -167,7 +168,9 @@ const PaymentMethods: React.FC = () => {
                         />
 
                         <Button type="submit" className='w-full bg-primary-300'>Confirmar</Button>
+
                     </form>
+                    <img width="100" height="100" src={`data:image/jpeg;base64,${qrcode}`}/>
                 </Form>
             </div>
 

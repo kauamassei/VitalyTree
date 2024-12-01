@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: #333; /* Cor de fundo cinza */
+    
     color: #575757;
 }
 
@@ -18,7 +18,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #9db8a9;
+    background-image: url('@/assets/fundo.jpeg');
 }
 
 .login__warning{
@@ -98,7 +98,7 @@ body {
 }
 
 .chat__form {
-    background-color: #868686;
+    background-color: #62756e;
     padding: 15px 20px;
     display: flex;
     align-items: center;
